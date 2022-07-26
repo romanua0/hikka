@@ -36,7 +36,7 @@ class FarmIrisMod(loader.Module):
             return await message.edit(self.strings["farmon_already"])
         self.db.set(self.name, "status", True)
         await self.client.send_message(
-            self.iris, "Фарма", schedule=timedelta(seconds=20)
+            self.iris, "Ферма", schedule=timedelta(seconds=20)
         )
         await message.edit(self.strings["farmon"])
 
@@ -62,9 +62,9 @@ class FarmIrisMod(loader.Module):
         status = self.db.get(self.name, "status", False)
         if not status:
             return
-        if event.raw_text == "Фарма":
+        if event.raw_text == "Ферма":
             return await self.client.send_message(
-                self.iris, "Фарма", schedule=timedelta(minutes=random.randint(1, 20))
+                self.iris, "Ферма", schedule=timedelta(minutes=random.randint(1, 20))
             )
         if event.sender_id != self.iris:
             return
