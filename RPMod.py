@@ -1,14 +1,37 @@
-# meta developer: @trololo_1
+# meta developer: @romanua0
+# MIT License
+
+# Copyright (c) 2022 romanua0
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 
 import subprocess
 try:
-	import emoji
+	import emoji # max work version 1.7.0
 except:
-	mod_inst = subprocess.Popen("pip install emoji", shell=True) 
+	mod_inst = subprocess.Popen("pip install emoji==1.7.0", shell=True) 
 	mod_inst.wait()
 	import emoji
 from .. import loader, utils
 import string, pickle, re
+from telethon.tl.types import Channel 
 
 conf_default = {
 			'-s1':{ 											# СТИЛИ для действия
@@ -16,18 +39,21 @@ conf_default = {
 				'2': [False, '<i>курсив</i>', '<i>', '</i>'], 
 				'3': [False, '<u>подчеркнутый</u>', '<u>', '</u>'],
 				'4': [False, '<s>зачёркнутый</s>', '<s>', '</s>'],
+				'5': [False, '<tg-spoiler>скрытый</tg-spoiler>', '<tg-spoiler>', '</tg-spoiler>'],
 			},
 			'-s2':{												# СТИЛИ для "С репликой"
 				'1': [True, '<b>жирный</b>', '<b>', '</b>'], 
 				'2': [False, '<i>курсив</i>', '<i>', '</i>'], 
 				'3': [False, '<u>подчеркнутый</u>', '<u>', '</u>'],
-				'4': [False, '<s>зачёркнуто</s>', '<s>', '</s>']
+				'4': [False, '<s>зачёркнуто</s>', '<s>', '</s>'],
+				'5': [False, '<tg-spoiler>скрытый</tg-spoiler>', '<tg-spoiler>', '</tg-spoiler>'],
 			}, 
 			'-s3':{ 											# СТИЛИ для реплики
 				'1': [False, '<b>жирный</b>', '<b>', '</b>'], 
 				'2': [False, '<i>курсив</i>', '<i>', '</i>'], 
 				'3': [False, '<u>подчеркнутый</u>', '<u>', '</u>'],
-				'4': [False, '<s>зачёркнутый</s>', '<s>', '</s>']
+				'4': [False, '<s>зачёркнутый</s>', '<s>', '</s>'],
+				'5': [False, '<tg-spoiler>скрытый</tg-spoiler>', '<tg-spoiler>', '</tg-spoiler>'],
 			},
 			'-sE':{ 											# ЭМОДЗИ перед репликой
 				'1': [True, '💬'], 
@@ -64,7 +90,9 @@ class RPMod(loader.Module):
 		if not self.db.get('RPMod', 'rpemoji', False):
 			self.db.set('RPMod', 'rpemoji', {'лизь': '👅'})
 		if not self.db.get('RPMod', 'useraccept', False):
-			self.db.set('RPMod', 'useraccept', [])
+			self.db.set('RPMod', 'useraccept', {"chats": [], "users": []})
+		elif type(self.db.get('RPMod', 'useraccept')) == type([]):
+			self.db.set('RPMod', 'useraccept', {"chats": [], "users": self.db.get('RPMod', 'useraccept')})
 		if self.db.get("RPMod", "rpconfigurate", False):			# ДЛЯ разных версий модуля.
 			self.db.set("RPMod", "rpconfigurate", self.merge_dict(conf_default, self.db.get("RPMod", "rpconfigurate")))
 
@@ -101,7 +129,7 @@ class RPMod(loader.Module):
 		
 			key_len = [len(x) for x in key_rp.split()]
 		
-			if len(dict_rp) >= 100:
+			if len(dict_rp) >= 666999:
 				await utils.answer(message, '<b>Достигнут лимит рп команд.</b>')
 			elif not key_rp or not key_rp.strip():
 				await utils.answer(message, '<b>Вы не ввели название рп команды.</b>')
@@ -182,7 +210,7 @@ class RPMod(loader.Module):
 		emojies = self.db.get('RPMod', 'rpemoji')
 		l = len(com)
 		
-		listComands = f'У вас рп команд: <b>{l}</b> из <b100</b>. '
+		listComands = f'У вас рп команд: <b>{l}</b> из <b>666999</b>. '
 		if len(com) == 0:
 			await utils.answer(message, '<b>Увы, у вас нету рп команд. :(</b>')
 			return
@@ -207,9 +235,9 @@ class RPMod(loader.Module):
 		else:
 			user = await message.client.get_entity(reply.sender_id)
 		if not args:
-			nicks[str(user.id)] = user.first_name
+			if str(user.id) in nicks: nicks.pop(str(user.id))
 			self.db.set('RPMod', 'rpnicks', nicks)
-			return await utils.answer(message, f"Ник пользователя <b>{str(user.id)}</b> изменён на '<b>{args}</b>'")
+			return await utils.answer(message, f"Ник пользователя <b>{str(user.id)}</b> изменён на '<b>{user.first_name}</b>'")
 		lst = []
 		nick = ''
 		for x in args:
@@ -327,29 +355,48 @@ class RPMod(loader.Module):
 			await utils.answer(message, 'Что то пошло не так..')
 
 	async def useracceptcmd(self, message):
-		""" Добавление/удаление пользователей, разрешенным использовать ваши команды.\n .useraccept {id/reply} """
+		""" Добавление/удаление пользователей/чатов, разрешенным использовать ваши команды.\n .useraccept {id/reply}\nДля добавления чата используй без реплая и аргументов."""
 		reply = await message.get_reply_message()
 		args = utils.get_args_raw(message)
 		userA = self.db.get('RPMod', 'useraccept')
-		if not reply and not args:
-			await utils.answer(message, 'Нет ни реплая, ни аргрументов.')
+		if not reply and not args and message.is_group:
+			chat = message.chat
+			if chat.id not in userA["chats"]:
+				userA["chats"].append(chat.id)
+				return await utils.answer(message, f'<i>Чату <b><u>{chat.title}</u></b>[<code>{chat.id}</code>] открыт доступ.</i>')
+			else:
+				userA["chats"].remove(chat.id)
+				return await utils.answer(message, f'<i>Чату <b><u>{chat.title}</u></b>[<code>{chat.id}</code>] закрыт доступ.</i>')
 		elif args == '-l':
 			sms = '<b>Пользователи, у которых есть доступ к командам:</b>'
-			for i in userA:
-				try:
-					user = await message.client.get_entity(int(i))
-					sms+= f'\n<b>• <u>{user.first_name}</u> ---</b> <code>{i}</code>'
-				except:
-					sms+= f'\n<b>•</b> <code>{i}</code>'
+			for k, v in userA.items():
+				if k == 'chats':
+					sms+= f'\n<b>Чатов:</b>'
+				else:
+					sms+= f'\n<b>Пользователей:</b>'
+				for i in v: 
+					try:
+						user = (await message.client.get_entity(int(i))).title if k == 'chats' else (await message.client.get_entity(int(i))).first_name
+						sms+= f'\n<b>• <u>{user}</u> ---</b> <code>{i}</code>'
+					except:
+						sms+= f'\n<b>•</b> <code>{i}</code>'
 			await utils.answer(message, sms)
 		elif args or reply:
 			args = int(args) if args.isdigit() else reply.sender_id
-			if args in userA:
-				userA.remove(args)
+			if args in userA["users"]:
+				userA["users"].remove(args)
 				self.db.set('RPMod', 'useraccept', userA)
 				await utils.answer(message, f'<b>Пользователю <code>{args}</code> был закрыт доступ.</b>')
+			elif args in userA["chats"]:
+				userA["chats"].remove(args)
+				self.db.set('RPMod', 'useraccept', userA)
+				await utils.answer(message, f'<b>Чату <code>{args}</code> был закрыт доступ.</b>')
+			elif args not in userA["chats"] and type(await message.client.get_entity(args)) == Channel: 
+				userA["chats"].append(args)
+				self.db.set('RPMod', 'useraccept', userA)
+				await utils.answer(message, f'<b>Чату <code>{args}</code> был открыт доступ.</b>')
 			else:
-				userA.append(args)
+				userA["users"].append(args)
 				self.db.set('RPMod', 'useraccept', userA)
 				await utils.answer(message, f'<b>Пользователю <code>{args}</code> был открыт доступ.</b>')
 		else:
@@ -402,7 +449,8 @@ class RPMod(loader.Module):
 			chat_rp = await message.client.get_entity(message.to_id)
 			if status != 1 or chat_rp.id in ex: return
 			me_id = (await message.client.get_me()).id
-			if message.sender_id not in users_accept and message.sender_id != me_id: return
+
+			if message.sender_id not in users_accept["users"] and message.sender_id != me_id and chat_rp.id not in users_accept["chats"]: return
 			me = (await message.client.get_entity(message.sender_id))
 			
 			if str(me.id) in nicks.keys():
