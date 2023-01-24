@@ -26,7 +26,7 @@ class BFGBunkerMod(loader.Module):
         self.db = db
 
     async def bfgb1oncmd(self, message):
-        """Insert info about command here... """
+        """Запускает фарм картошки"""
         await utils.answer(message, "<b>Запущене выращивание картошки</b>")
         status = self.db.set("BFGBunker", "status1", True)
         while status:
@@ -39,6 +39,6 @@ class BFGBunkerMod(loader.Module):
             await message.respond("вырастить картошку")
 
     async def bfgb1offcmd(self, message):
-        """Insert info about command here... """
+        """Останавливает фарм картошки"""
         self.db.set("BFGBunker", "status1", False)
         await utils.answer(message, "<b>Остановлено выращивание картошки</b>")
