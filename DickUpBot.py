@@ -7,7 +7,7 @@
 # Description: Send mes
 # Author: romanua0
 # Commands:
-# .teafarmon | .teafarmoff
+# .dickfarmon | .dickfarmoff
 # ---------------------------------------------------------------------------------
 
 
