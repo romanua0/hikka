@@ -18,7 +18,7 @@ from asyncio import sleep
 
 @loader.tds
 class MineEVOMod(loader.Module):
-    """Send mes"""
+    """Автофарм для бота MineEVO"""
 
     strings = {"name": "MineEVO"}
 
