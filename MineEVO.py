@@ -49,7 +49,7 @@ class MineEVOMod(loader.Module):
         status = self.db.set("MineEVO", "status2", True)
         while status:
             await message.respond("вырастить картошку")
-            await sleep(60 * 5)
+            await sleep(60 * 10)
             status = self.db.get("MineEVO", "status2")
             if not status:
                 return
