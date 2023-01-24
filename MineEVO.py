@@ -7,7 +7,7 @@
 # Description: Автофарм для бота MineEVO
 # Author: romanua0
 # Commands:
-# .mineeon | .mineeoff | .bfgon | .bfgoff
+# .mineeon | .mineeoff
 # ---------------------------------------------------------------------------------
 
 
@@ -41,20 +41,4 @@ class MineEVOMod(loader.Module):
     async def mineeoffcmd(self, message):
         """Insert info about command here... """
         self.db.set("MineEVO", "status1", False)
-        await utils.answer(message, "<b>Остановлено</b>")
-
-    async def bfgboncmd(self, message):
-        """Insert info about command here... """
-        await utils.answer(message, "<b>Запущено</b>")
-        status = self.db.set("MineEVO", "status2", True)
-        while status:
-            await message.respond("вырастить картошку")
-            await sleep(60 * 10)
-            status = self.db.get("MineEVO", "status2")
-            if not status:
-                return
-
-    async def bfgboffcmd(self, message):
-        """Insert info about command here... """
-        self.db.set("MineEVO", "status2", False)
         await utils.answer(message, "<b>Остановлено</b>")
