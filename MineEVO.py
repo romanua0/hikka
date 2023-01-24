@@ -4,7 +4,7 @@
 #  > ^ <   ⚠️ Owner of heta.hikariatama.ru doesn't take any responsibilities or intellectual property rights regarding this script
 # ---------------------------------------------------------------------------------
 # Name: MineEVO
-# Description: Send mes
+# Description: Для автоматического фарминга
 # Author: romanua0
 # Commands:
 # .mineeon | .mineeoff | .bfgon | .bfgoff
@@ -18,7 +18,7 @@ from asyncio import sleep
 
 
 class MineEVO(loader.Module):
-    """Send mes"""
+    """Для автоматического фарминга"""
 
     strigs = {"name": "MineEVO"}
 
