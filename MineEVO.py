@@ -1,32 +1,32 @@
 # ---------------------------------------------------------------------------------
 #  /\_/\  
 # ( o.o )  🔓 Not licensed.
-#  > ^ <   ⚠️ Owner of heta.hikariatama.ru doesn't take any responsibilities or intellectual property rights regarding this script
+#  > ^ <   
 # ---------------------------------------------------------------------------------
 # Name: MineEVO
-# Description: Для автоматического фарминга
+# Description: Автофарм для бота MineEVO
 # Author: romanua0
 # Commands:
 # .mineeon | .mineeoff | .bfgon | .bfgoff
 # ---------------------------------------------------------------------------------
 
 
-# meta developer: @romanua0
+
 
 from .. import utils, loader
 from asyncio import sleep
 
+@loader.tds
+class MineEVOMod(loader.Module):
+    """Send mes"""
 
-class MineEVO(loader.Module):
-    """Для автоматического фарминга"""
-
-    strigs = {"name": "MineEVO"}
+    strings = {"name": "MineEVO"}
 
     async def client_ready(self, client, db):
         self.db = db
 
     async def mineeoncmd(self, message):
-        """ """
+        """Insert info about command here... """
         await utils.answer(message, "<b>Запущено</b>")
         status = self.db.set("MineEVO", "status1", True)
         while status:
@@ -39,12 +39,12 @@ class MineEVO(loader.Module):
             await message.respond("🚀Оценивать")
 
     async def mineeoffcmd(self, message):
-        """ """
+        """Insert info about command here... """
         self.db.set("MineEVO", "status1", False)
         await utils.answer(message, "<b>Остановлено</b>")
 
     async def bfgoncmd(self, message):
-        """ """
+        """Insert info about command here... """
         await utils.answer(message, "<b>Запущено</b>")
         status = self.db.set("MineEVO", "status2", True)
         while status:
@@ -55,6 +55,6 @@ class MineEVO(loader.Module):
                 return
 
     async def bfgoffcmd(self, message):
-        """ """
+        """Insert info about command here... """
         self.db.set("MineEVO", "status2", False)
         await utils.answer(message, "<b>Остановлено</b>")
