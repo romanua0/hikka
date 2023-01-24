@@ -36,25 +36,25 @@ class MineEVOMod(loader.Module):
                 await message.respond("коп")
                 await sleep(2)
             status = self.db.get("MineEVO", "status1")
-            await message.respond("🚀Оценивать")
+            await message.respond("👤 Профиль")
 
     async def mineeoffcmd(self, message):
         """Insert info about command here... """
         self.db.set("MineEVO", "status1", False)
         await utils.answer(message, "<b>Остановлено</b>")
 
-    async def bfgoncmd(self, message):
+    async def bfgboncmd(self, message):
         """Insert info about command here... """
         await utils.answer(message, "<b>Запущено</b>")
         status = self.db.set("MineEVO", "status2", True)
         while status:
-            await message.respond("копать материю")
+            await message.respond("вырастить картошку")
             await sleep(60 * 5)
             status = self.db.get("MineEVO", "status2")
             if not status:
                 return
 
-    async def bfgoffcmd(self, message):
+    async def bfgboffcmd(self, message):
         """Insert info about command here... """
         self.db.set("MineEVO", "status2", False)
         await utils.answer(message, "<b>Остановлено</b>")
