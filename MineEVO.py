@@ -7,7 +7,7 @@
 # Description: Автофарм для бота MineEVO
 # Author: romanua0
 # Commands:
-# .mineeon | .mineeoff | .minee4on | .minee4off
+# .mineeon | .mineeoff
 # ---------------------------------------------------------------------------------
 
 
