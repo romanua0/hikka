@@ -7,7 +7,7 @@
 # Description: 
 # Author: romanua0
 # Commands:
-# .bfgb1on | .bfgb1off
+# .bfgb1on | .bfgb1off | .bfgb2on | .bfgb2off
 # ---------------------------------------------------------------------------------
 
 
@@ -39,6 +39,24 @@ class BFGBunkerMod(loader.Module):
             await message.respond("вырастить картошку")
 
     async def bfgb1offcmd(self, message):
-        """Останавливает фарм картошки"""
+        """Останавливает фарм морковь"""
         self.db.set("BFGBunker", "status1", False)
-        await utils.answer(message, "<b>Остановлено выращивание картошки</b>")
+        await utils.answer(message, "<b>Остановлено выращивание морковь</b>")
+        
+        async def bfgb2oncmd(self, message):
+        """Запускает фарм морковь"""
+        await utils.answer(message, "<b>Запущене выращивание морковь</b>")
+        status = self.db.set("BFGBunker", "status1", True)
+        while status:
+            for i in range(15):
+                if not self.db.get("BFGBunker", "status1"):
+                    return
+                await message.respond("вырастить морковь")
+                await sleep(600)
+            status = self.db.get("BFGBunker", "status1")
+            await message.respond("вырастить морковь")
+
+    async def bfgb2offcmd(self, message):
+        """Останавливает фарм морковь"""
+        self.db.set("BFGBunker", "status1", False)
+        await utils.answer(message, "<b>Остановлено выращивание морковь</b>")
