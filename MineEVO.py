@@ -51,10 +51,10 @@ class MineEVOMod(loader.Module):
             for i in range(15):
                 if not self.db.get("MineEVO", "status1"):
                     return
-                await message.respond("коп")
+                await message.respond("Копать")
                 await sleep(4)
             status = self.db.get("MineEVO", "status1")
-            await message.respond("Профиль")
+            await message.respond("Проф")
 
     async def minee4offcmd(self, message):
         """Insert info about command here... """
