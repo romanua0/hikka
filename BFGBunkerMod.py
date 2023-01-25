@@ -41,7 +41,7 @@ class BFGBunkerMod(loader.Module):
     async def bfgb1offcmd(self, message):
         """Останавливает фарм морковь"""
         self.db.set("BFGBunker", "status1", False)
-        await utils.answer(message, "<b>Остановлено выращивание морковь</b>")
+        await utils.answer(message, "<b>Остановлено выращивание картошку</b>")
         
     async def bfgb2oncmd(self, message):
         """Запускает фарм морковь"""
