@@ -7,7 +7,7 @@
 # Description: 
 # Author: romanua0
 # Commands:
-# .bfgb1on | .bfgb1off | .bfgb2on | .bfgb2off | .bfgb3on | .bfgb3off | .bfgb4on | .bfgb4off
+# .bfgb1on | .bfgb1off | .bfgb2on | .bfgb2off | .bfgb3on | .bfgb3off
 # ---------------------------------------------------------------------------------
 
 
