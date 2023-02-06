@@ -7,7 +7,7 @@
 # Description: 
 # Author: romanua0
 # Commands:
-# .bfgb1on | .bfgb1off | .bfgb2on | .bfgb2off | .bfgb3on | .bfgb3off
+# .bfgb1on | .bfgb1off | .bfgb2on | .bfgb2off | .bfgb3on | .bfgb3off | .bfgb4on | .bfgb4off
 # ---------------------------------------------------------------------------------
 
 
@@ -62,8 +62,8 @@ class BFGBunkerMod(loader.Module):
         await utils.answer(message, "<b>Остановлено выращивание морковь</b>")
 
     async def bfgb3oncmd(self, message):
-        """Запускает фарм баклажан"""
-        await utils.answer(message, "<b>Запущене выращивание баклажан</b>")
+        """Запускает фарм баклажана"""
+        await utils.answer(message, "<b>Запущене выращивание баклажана</b>")
         status = self.db.set("BFGBunker", "status3", True)
         while status:
             for i in range(15):
@@ -75,7 +75,24 @@ class BFGBunkerMod(loader.Module):
             await message.respond("вырастить баклажан")
 
     async def bfgb3offcmd(self, message):
-        """Останавливает фарм баклажан"""
+        """Останавливает фарм баклажана"""
         self.db.set("BFGBunker", "status3", False)
-        await utils.answer(message, "<b>Остановлено выращивание баклажан</b>")
+        await utils.answer(message, "<b>Остановлено выращивание баклажана</b>")
         
+          async def bfgb4oncmd(self, message):
+        """Запускает фарм перця"""
+        await utils.answer(message, "<b>Запущене выращивание перця</b>")
+        status = self.db.set("BFGBunker", "status4", True)
+        while status:
+            for i in range(15):
+                if not self.db.get("BFGBunker", "status4"):
+                    return
+                await message.respond("вырастить перец")
+                await sleep(600)
+            status = self.db.get("BFGBunker", "status4")
+            await message.respond("вырастить перец")
+
+    async def bfgb4offcmd(self, message):
+        """Останавливает фарм перця"""
+        self.db.set("BFGBunker", "status4", False)
+        await utils.answer(message, "<b>Остановлено выращивание перця</b>")
