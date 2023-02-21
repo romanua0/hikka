@@ -58,9 +58,7 @@ class BFGBMineMod(loader.Module):
             if not message:
                 return False
 
-            await message.click(data=b"mining_sand_4_409717212_true")
-            await asyncio.sleep(1)
-            await message.click(data=b"mining_sand_4_409717212_true")
+            await message.click(text='⛏ Копать")
             await asyncio.sleep(1)
             return True
         except Exception:
@@ -74,8 +72,7 @@ class BFGBMineMod(loader.Module):
             r = await conv.get_response()
             if "чтобы построить введите команду" in r.raw_text:
                 key = {
-                    "Песок": "mine1",
-                    "Уголь": "mine1",
+                    "выкопать": "mine1",
                 }[key]
                 self.config[f"auto{key}"] = False
                 return False
@@ -92,7 +89,7 @@ class BFGBMineMod(loader.Module):
                 await asyncio.sleep(5)
 
             if any_:
-                self.set("fee_time", int(time.time() + 5 * 60))
+                self.set("fee_time", int(time.time() + 6 * 60))
                 
         if any_:
             await self._client(ReadMentionsRequest(self._bot))
