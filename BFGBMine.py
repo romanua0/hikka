@@ -58,7 +58,7 @@ class BFGBMineMod(loader.Module):
             if not message:
                 return False
 
-            await message.click(text='⛏ Копать")
+            await message.click(text='⛏ Копать')
             await asyncio.sleep(1)
             return True
         except Exception:
