@@ -7,7 +7,7 @@
 # Description: 
 # Author: romanua0
 # Commands:
-# .bfgb1on | .bfgb1off | .bfgb2on | .bfgb2off | .bfgb3on | .bfgb3off | .bfgb3on | .bfgb3off
+# .bfgb1on | .bfgb1off | .bfgb2on | .bfgb2off | .bfgb3on | .bfgb3off | .bfgb3on | .bfgb3off | .bfgbcopon | .bfgbcopoff
 # ---------------------------------------------------------------------------------
 
 
@@ -96,4 +96,21 @@ class BFGBunkerMod(loader.Module):
         """Останавливает фарм перця"""
         self.db.set("BFGBunker", "status4", False)
         await utils.answer(message, "<b>Остановлено выращивание перця</b>")
-        
+
+    async def bfgbcoponcmd(self, message):
+        """Запускает фарм шахты"""
+        await utils.answer(message, "<b>Запущене фарм шахты</b>")
+        status = self.db.set("BFGBunker", "status5", True)
+        while status:
+            for i in range(15):
+                if not self.db.get("BFGBunker", "status5"):
+                    return
+                await message.respond("копать")
+                await sleep(300)
+            status = self.db.get("BFGBunker", "status5")
+            await message.respond("копать")
+
+    async def bfgbcopoffcmd(self, message):
+        """Останавливает фарм шахты"""
+        self.db.set("BFGBunker", "status5", False)
+        await utils.answer(message, "<b>Остановлено фарм шахты</b>")
