@@ -60,6 +60,8 @@ class BFGBMineMod(loader.Module):
 
             await message.click(data=b"mining_sand_4_409717212_true")
             await asyncio.sleep(1)
+            await message.click(data=b"mining_sand_4_409717212_true")
+            await asyncio.sleep(1)
             return True
         except Exception:
             logger.exception("Can't process BFGBMine click")
@@ -73,6 +75,7 @@ class BFGBMineMod(loader.Module):
             if "чтобы построить введите команду" in r.raw_text:
                 key = {
                     "Песок": "mine1",
+                    "Уголь": "mine1",
                 }[key]
                 self.config[f"auto{key}"] = False
                 return False
