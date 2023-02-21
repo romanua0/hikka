@@ -70,7 +70,7 @@ class BFGBMineMod(loader.Module):
         async with self._client.conversation(self._bot) as conv:
             await conv.send_message(key)
             r = await conv.get_response()
-            if "чтобы построить введите команду" in r.raw_text:
+            if "у вас нет кирки!" in r.raw_text:
                 key = {
                     "выкопать": "mine1",
                 }[key]
