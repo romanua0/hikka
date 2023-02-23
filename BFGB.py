@@ -427,7 +427,7 @@ class BFGBMod(loader.Module):
                 await asyncio.sleep(5)
 
             if any_:
-                self.set("fee_time", int(time.time() + 120 * 60))
+                self.set("fee_time", int(time.time() + 180 * 60))
                 
         if any_:
             await self._client(ReadMentionsRequest(self._bot))
