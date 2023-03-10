@@ -62,40 +62,40 @@ class BFGBunkerMod(loader.Module):
         await utils.answer(message, "<b>Остановлено выращивание морковь</b>")
 
     async def bfgb3oncmd(self, message):
-        """Запускает фарм баклажана"""
-        await utils.answer(message, "<b>Запущене выращивание баклажана</b>")
+        """Запускает фарм рису"""
+        await utils.answer(message, "<b>Запущене выращивание риса</b>")
         status = self.db.set("BFGBunker", "status3", True)
         while status:
             for i in range(15):
                 if not self.db.get("BFGBunker", "status3"):
                     return
-                await message.respond("вырастить баклажан")
+                await message.respond("вырастить рис")
                 await sleep(600)
             status = self.db.get("BFGBunker", "status3")
-            await message.respond("вырастить баклажан")
+            await message.respond("вырастить рис")
 
     async def bfgb3offcmd(self, message):
-        """Останавливает фарм баклажана"""
+        """Останавливает фарм риса"""
         self.db.set("BFGBunker", "status3", False)
         await utils.answer(message, "<b>Остановлено выращивание баклажана</b>")
 
     async def bfgb4oncmd(self, message):
-        """Запускает фарм перця"""
-        await utils.answer(message, "<b>Запущене выращивание перця</b>")
+        """Запускает фарм свекли"""
+        await utils.answer(message, "<b>Запущене выращивание свекли</b>")
         status = self.db.set("BFGBunker", "status4", True)
         while status:
             for i in range(15):
                 if not self.db.get("BFGBunker", "status4"):
                     return
-                await message.respond("вырастить перец")
+                await message.respond("вырастить свеклу")
                 await sleep(600)
             status = self.db.get("BFGBunker", "status4")
-            await message.respond("вырастить перец")
+            await message.respond("вырастить свеклу")
 
     async def bfgb4offcmd(self, message):
-        """Останавливает фарм перця"""
+        """Останавливает фарм свекли"""
         self.db.set("BFGBunker", "status4", False)
-        await utils.answer(message, "<b>Остановлено выращивание перця</b>")
+        await utils.answer(message, "<b>Остановлено выращивание свекли</b>")
 
     async def bfgbcoponcmd(self, message):
         """Запускает фарм шахты"""
